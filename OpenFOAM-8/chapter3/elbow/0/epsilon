@@ -1,0 +1,57 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -3 0 0 0 0];
+
+internalField   uniform 0.0001;
+
+boundaryField
+{
+   wall
+    {
+     	type            epsilonWallFunction;
+     	value           uniform 0;   
+    }
+   symmetry
+    {
+        type            symmetry;
+    }
+    pressure-outlet-7
+    {
+	type            inletOutlet;
+        inletValue      uniform 0.0001;
+    }
+    velocity-inlet-6
+    {
+      type            turbulentMixingLengthDissipationRateInlet;
+      mixingLength    0.017;       
+				  // mixingLength is related to geometry size, it shows the size of the largest eddy
+				  // so it can't be larger than geometry size, and its a perentage of domain size
+				  // for a flow in pipe, it is around 0.07*dh 
+      value           uniform 0.0001; //place holder                   
+    }
+
+    velocity-inlet-5
+    {
+       type            turbulentMixingLengthDissipationRateInlet;
+       mixingLength    0.071;       
+       value           uniform 0.0001;
+    }
+}
+
+
+// ************************************************************************* //

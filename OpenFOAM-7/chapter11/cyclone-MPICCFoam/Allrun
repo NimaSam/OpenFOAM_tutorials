@@ -1,0 +1,16 @@
+#!/bin/sh
+
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+
+blockMesh
+
+snappyHexMesh -overwrite
+
+decomposePar
+
+mpirun -np 8 MPPICFoam -parallel > log 
+
+reconstructPar

@@ -1,0 +1,58 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+	   ".*"
+            {
+                type            zeroGradient;
+                value           uniform 300;
+            }
+            heater_to_surrondingSolid
+            {
+                type            compressible::turbulentTemperatureCoupledBaffleMixed;
+                Tnbr            T;
+		kappa           solidThermo;
+                kappaName       none;
+                //K               solidThermo; //syntax for previous version of OpenFOAM
+                //KName           none;
+                value           uniform 300;
+            }
+
+            maxY
+            {
+		type	groovyBC;
+ 		valueExpression "T0+Tamp*cos(Z*pi/Z0)";
+		gradientExpression "0";
+		fractionExpression "1";
+		variables       "T0=300;Tamp=5;Z0=0.04;Z=pos().z;";
+		timelines       ();
+		value           uniform 300;
+            }
+	   
+        }
+    }
+
+}
+
+// ************************************************************************* //

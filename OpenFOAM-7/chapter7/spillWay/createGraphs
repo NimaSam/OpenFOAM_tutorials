@@ -1,0 +1,90 @@
+#!/bin/sh
+#------------------------------------------------------------------------------
+# =========                 |
+# \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+#  \\    /   O peration     |
+#   \\  /    A nd           | Copyright (C) 2011-2015 OpenFOAM Foundation
+#    \\/     M anipulation  |
+#-------------------------------------------------------------------------------
+# License
+#     This file is part of OpenFOAM.
+#
+#     OpenFOAM is free software: you can redistribute it and/or modify it
+#     under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+#     ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#     FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+#     for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Script
+#     createGraphs
+#
+# Description
+#     Creates .eps graphs of OpenFOAM results 
+#
+#------------------------------------------------------------------------------
+
+createFlowRate()
+{
+    
+    inflowPlot=$1
+    outflowPlot=$2
+
+    gnuplot<<EOF
+    set terminal postscript eps color enhanced
+    set output "inputVsOutput.eps"
+    set xlabel "Time, [s]"
+    set ylabel "flowRate, [m^3/s]"
+    #set grid
+    set key left top
+    set size 0.6, 0.6
+    set xrange [0:5]
+    set yrange [0:0.0010]
+    plot \
+        "$inflowPlot" u 1:2 title "inflow" with lines linetype 2, \
+        "$outflowPlot" u 1:2 title "outflow" with lines linetype 1
+EOF
+}
+
+
+createUpstreamDepth()
+{
+    plot1=$1
+    gnuplot<<EOF
+    set terminal postscript eps color enhanced
+    set output "UpstreamDepth.eps"
+    set xlabel "Time, [s]"
+    set ylabel "Depth,[m]"
+    #set grid
+    set key left top
+    set size 0.6, 0.6
+    set xrange [0:5]
+    set yrange [0:0.15]
+    plot \
+        "$plot1" u 1:2 title "UpstreamDepth" with lines linetype -1
+EOF
+}
+
+
+# test if gnuplot exists on the system
+if ! which gnuplot > /dev/null 2>&1
+then
+    echo "gnuplot not found - skipping graph creation" >&2
+    exit 1
+fi
+
+path1="./postProcessing/swakExpression_inFlowrate/0/inFlowrate"
+path2="./postProcessing/swakExpression_outFlowrate/0/outFlowrate"
+path3="./postProcessing/swakExpression_upstreamDepthOverCrest/0/upstreamDepthOverCrest"
+
+createFlowRate $path1 $path2
+createUpstreamDepth  $path3
+
+
+#------------------------------------------------------------------------------

@@ -1,0 +1,120 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+
+    U
+    {
+        internalField   uniform (0 0 0);
+
+        boundaryField
+        {
+    		minZ
+    		{
+       		type            fixedValue;
+       		value           uniform (0 0 1);
+    		}
+
+    		maxZ
+    		{
+        	type            inletOutlet;//zeroGradient;
+		inletValue	uniform (0 0 0);
+		value		uniform (0 0 0);
+    		}
+
+    		air_to_surrondingSolid
+    		{
+        		type            fixedValue;
+        		value           uniform (0 0 0);
+    		}
+	}
+
+    }
+
+    T
+    {
+        internalField   uniform 300;
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            zeroGradient;
+                value           uniform 300;
+            }
+
+            air_to_surrondingSolid
+            {
+                type            compressible::turbulentTemperatureCoupledBaffleMixed;
+                Tnbr            T;
+		kappa           fluidThermo;
+                kappaName       none;
+                //K               basicThermo; //syntax for previous version of OpenFOAM 
+                //KName           none;
+                value           uniform 300;
+            }
+
+	   minZ
+          {
+        	type            fixedValue;
+        	value           uniform 300;
+          }
+        }
+    }
+
+    p_rgh
+    {
+        internalField   uniform 1e5;
+
+	boundaryField
+        {
+    	minZ
+    	{
+        	type            fixedFluxPressure;//buoyantPressure;
+		value		uniform 1e5;
+    	}
+
+    	maxZ
+    	{
+		type		fixedValue;
+		value		uniform 1e5;
+    	}
+
+    	air_to_surrondingSolid
+    	{
+        	type            fixedFluxPressure;//buoyantPressure;
+		value		uniform 1e5;
+    	}
+    	}
+    }
+
+    p
+    {
+        internalField   uniform 1e5;
+
+        boundaryField
+        {
+            ".*"
+            {
+                type            calculated;
+                value           uniform 1e5;
+            }
+        }
+    }
+}
+
+// ************************************************************************* //

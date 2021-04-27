@@ -1,0 +1,60 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+
+ inFlowrate
+    {
+         type    swakExpression;
+         valueType    patch;
+         patchName    inflow;
+         accumulations   (sum);
+         outputControlMode  outputTime;
+         aliases { alpha1 alpha.water; }
+         expression     "U.x*Sf().x*(-1)*alpha1";//
+         verbose        true;
+    }
+ outFlowrate
+    {
+         type    swakExpression;
+         valueType    patch;
+         patchName    outflow;
+         accumulations   (sum);
+         outputControlMode  outputTime;
+         aliases { alpha1 alpha.water; }
+         expression     "U.x*Sf().x*alpha1";//
+         verbose        true;
+    }
+   
+upstreamDepthOverCrest
+{
+    type swakExpression;
+    valueType set;
+    verbose false;
+    setName yb;
+     
+    set
+    {
+        type    uniform;
+        axis    y;
+        start   ( -0.4 0 -0.005 );
+        end     ( -0.4 0.15 -0.005 );
+        nPoints 60;
+    }
+
+    aliases { alpha1 alpha.water; }
+     
+    expression "(alpha1 > 0.5) ? pos().y : 0";
+    accumulations (max);
+     
+    interpolate true;
+    interpolationType cellPoint ;
+    outputControlMode   outputTime;
+}
+
+
+// ************************************************************************* //

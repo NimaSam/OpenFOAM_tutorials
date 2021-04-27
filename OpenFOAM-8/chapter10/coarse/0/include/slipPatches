@@ -1,0 +1,4 @@
+    walls
+    {
+        type slip;
+    }

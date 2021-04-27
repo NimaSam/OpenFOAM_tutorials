@@ -1,0 +1,51 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+#getApplication='chtMultiRegionSimpleFoam'
+
+runApplication blockMesh
+runApplication topoSet
+runApplication splitMeshRegions -cellZones -overwrite
+
+for i in air surrondingSolid heater
+do
+   changeDictionary -region $i > log.changeDictionary.$i 2>&1
+done
+
+# remove fluid fields from solid regions (important for post-processing)
+for i in heater surrondingSolid
+do
+   rm 0/$i/{epsilon,k,p,U,p_rgh}
+done
+
+for i in air heater surrondingSolid
+do
+   mapFields ../multiRegionHeater -sourceRegion $i -targetRegion $i -consistent -sourceTime 2000 > log.mapFields.$i
+done
+#-- Run on single processor
+#runApplication `getApplication`
+
+# Decompose
+runApplication decomposePar -allRegions
+
+# Run
+#runParallel `getApplication` 2
+mpirun -np 2 chtMultiRegionFoam -parallel > log.chtMultiRegionFoam 
+# Reconstruct
+runApplication reconstructPar -allRegions
+
+echo
+echo "creating files for paraview post-processing"
+echo
+paraFoam -touchAll
+
+echo
+echo "creating files for residual"
+echo
+
+foamLog log.chtMultiRegionFoam
+# ----------------------------------------------------------------- end-of-file

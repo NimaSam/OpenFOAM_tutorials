@@ -1,0 +1,69 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type            variableHeightFlowRateInletVelocity; 
+        flowRate        0.0007;//check
+        alpha           alpha.water;
+        value           uniform (0 0 0);
+     
+       /*type	groovyBC;
+ 	valueExpression "vector (pos().y < 0.0 ? 0.01 : 0,0,0)";
+	gradientExpression "vector(0,0,0)";
+	fractionExpression "1";
+	variables       "";
+	timelines       ();
+	value           uniform (0 0 0);
+      */
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    walls
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+   spillway
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+   
+    atmosphere
+    {
+        type            pressureInletOutletVelocity;
+        phi             phi;
+        value           uniform (0 0 0);
+    }
+
+    "(defaultFaces|front|back)"
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //

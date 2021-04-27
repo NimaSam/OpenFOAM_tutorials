@@ -1,0 +1,23 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+nu              nu [ 0 2 -1 0 0 0 0 ] 0.01; 
+a		a  [ 0 2 -1 -1 0 0 0 ] 0.001;//add
+D0              D0 [ 0 2 -1 0 0 0 0 ] 0.01;//add
+Tref		Tref [ 0 0 0 1 0 0 0 ] 50;//add
+
+// ************************************************************************* //
