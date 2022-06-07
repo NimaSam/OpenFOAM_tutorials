@@ -1,0 +1,15 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# creat mesh
+blockMesh 
+
+#solve problem
+icoFoam > log 
+
+paraFoam -touchAll
+
+# ----------------------------------------------------------------- end-of-file

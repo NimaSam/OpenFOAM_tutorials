@@ -1,0 +1,19 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+application=`getApplication`
+
+
+blockMesh
+snappyHexMesh -overwrite
+createPatch -overwrite
+transformPoints 'scale=(0.05 0.05 0.05)'
+cp 0/U.org 0/U
+renumberMesh -overwrite
+potentialFoam
+runApplication $application
+
+# ----------------------------------------------------------------- end-of-file
