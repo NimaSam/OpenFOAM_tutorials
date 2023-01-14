@@ -44,11 +44,4 @@ timeFormat      general;
 timePrecision   6;
 
 runTimeModifiable true;
-
-
-functions
-{
-    #include "readFields"
-    #include "streamLines"
-}
 // ************************************************************************* //

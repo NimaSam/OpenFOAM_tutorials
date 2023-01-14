@@ -12,8 +12,9 @@ snappyHexMesh -overwrite
 createPatch -overwrite
 transformPoints 'scale=(0.05 0.05 0.05)'
 cp 0/U.org 0/U
+cp 0/p.org 0/p
 renumberMesh -overwrite
-potentialFoam
+potentialFoam -writep -writePhi
 runApplication $application
 
 # ----------------------------------------------------------------- end-of-file
