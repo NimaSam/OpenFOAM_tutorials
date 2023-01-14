@@ -58,10 +58,12 @@ libs (
     "libOpenFOAM.so" // keeps paraFoam happy
     "libsimpleSwakFunctionObjects.so" 
    );
-
+*/
 functions
 {
-bubbleZ
+  // if swak4Foam is installed, make it uncomment
+  /*
+  bubbleZ_swak
     {
         type swakExpression;
         valueType internalField;
@@ -79,6 +81,48 @@ bubbleZ
 	outputInterval		1;
 	writeStartTime    true;       
     }
-};*/
+    */
+
+    bubbleZ_coded
+    {
+        libs        ("libutilityFunctionObjects.so");
+
+        type coded;
+
+        codeWrite
+        #{
+            // Lookup alpha1
+            const volScalarField& alpha1 = mesh().lookupObject<volScalarField>("alpha.water");
+            
+            //access to mesh centers
+            volScalarField Cz =mesh().C().component(vector::Z);
+                        
+            scalar vol= 0;
+            scalar volZ= 0;
+            forAll(alpha1, celli) {
+            //include bubble cells!
+            	if (alpha1[celli] < 0.5) {
+            		vol +=mesh().V()[celli];
+            		volZ +=mesh().V()[celli]*Cz[celli];
+            	}  
+            }
+            
+            // Write time and volume on terminal
+            Info << "time= " << mesh().time().timeName() << " bubbleCenter= " << (volZ/vol) << endl;
+            
+            //TODO: you can also write it in a separate file!
+        #};
+    }
+
+};
+
+
+
+
+
+
+
+
+
 
 // ************************************************************************* //
