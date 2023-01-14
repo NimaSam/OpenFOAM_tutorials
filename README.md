@@ -24,9 +24,8 @@ Please cite and refer to the above guidebook, whenever you use this material.
 
 
 ## requirements
-There are different way to install and use OpenFOAM. The recommanded procedure with above tutorials:
-
-* install OpenFOAM and required packages on ubuntu
+There are various methods for installing and utilizing OpenFOAM. However, the recommended approach is to 
+install OpenFOAM and required packages on ubuntu LTS versions.
 
 1- install OpenFOAM9
 
