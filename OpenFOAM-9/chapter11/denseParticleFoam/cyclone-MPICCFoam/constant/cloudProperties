@@ -151,7 +151,7 @@ subModels
         applyLimiting true;
         particleStressModel
         {
-            type HarrisCrighton;
+            type xxxHarrisCrighton;
             alphaPacked 0.6;
             pSolid 5.0;
             beta 2.0;
