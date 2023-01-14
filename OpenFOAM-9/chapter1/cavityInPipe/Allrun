@@ -8,7 +8,9 @@ cd ${0%/*} || exit 1    # run from this directory
 blockMesh 
 
 #solve problem
-icoFoam > log 
+icoFoam > log & 
+sleep 3 
+foamMonitor -l postProcessing/residuals\(p\)/0/residuals.dat
 
 paraFoam -touchAll
 

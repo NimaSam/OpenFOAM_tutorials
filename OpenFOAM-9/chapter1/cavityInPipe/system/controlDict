@@ -48,5 +48,13 @@ runTimeModifiable true;
 //if using groovyBC, it should be uncommented!
 //libs ( "libOpenFOAM.so" "libgroovyBC.so" ) ; 
 
+functions
+{
+    #includeFunc residuals(p)
+    //#includeFunc streamlinesLine(funcName=streamlines, start=(0 0.5 0), end=(9 0.5 0), nPoints=24, U)
+}
+
+
+
 
 // ************************************************************************* //
