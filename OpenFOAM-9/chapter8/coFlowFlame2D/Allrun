@@ -8,9 +8,9 @@
 blockMesh
 cp 0/T.org 0/T
 setFields
-reactingFoam > log.reactingFoam
-# decomposePar
-# mpirun -np 8 reactingFoam -parallel > log.reactingFoam
-# reconstructPar
+# reactingFoam > log.reactingFoam
+decomposePar
+mpirun -np 8 reactingFoam -parallel > log.reactingFoam
+reconstructPar
 
 

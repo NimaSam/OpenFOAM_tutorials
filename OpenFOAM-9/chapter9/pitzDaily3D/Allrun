@@ -6,9 +6,9 @@
 
 
 blockMesh
-XiFoam > log 
-# decomposePar
-# mpirun -np 4 XiFoam -parallel > log 
-# reconstructPar
-
-
+#XiFoam > log.XiFoam
+decomposePar
+mpirun -np 4 XiFoam -parallel > log.XiFoam
+reconstructPar
+postProcess -func vorticity
+XiFoam -postProcess -func yPlus

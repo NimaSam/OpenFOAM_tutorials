@@ -1,0 +1,35 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Reference: 
+	F. L. Dryer and I. Glassman (1973).
+	High-temperature oxidation of CO and CH4,
+	Symposium (International) on Combustion, 14(1), pp. 987-1003.
+\*---------------------------------------------------------------------------*/
+
+reactions
+{
+    methaneReaction0
+    {
+        type     irreversibleArrhenius;
+        reaction "CH4^0.7 + 1.5O2^0.8 = CO + 2H2O";
+        A        5.012e+11;
+        beta     0;
+        Ta       24054.36;
+    }
+    
+    methaneReaction1
+    {
+        type      reversibleArrhenius;
+        reaction  "CO + 0.5O2^0.25 + H2O^0.5 = CO2 + H2O";
+        A         2.239e+12;
+        beta      0;
+        Ta        20446.21;
+    }
+}
+// ************************************************************************* //
+

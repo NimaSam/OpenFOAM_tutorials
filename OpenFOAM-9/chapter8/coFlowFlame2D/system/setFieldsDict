@@ -1,13 +1,12 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-| =========                 |                                                 |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  1.6                                   |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
-|    \\/     M anipulation  |                                                 |
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
     format      ascii;
     class       dictionary;
     location    "system";
@@ -24,7 +23,7 @@ regions
 (
     sphereToCell
     {
-        centre (0.0 0.0 0.0);         //-First point on cylinder axis
+        centre (0.0 0.0 0.0);         // Center of Sphere
 	radius 0.05;		        //-Radius 5-7
         fieldValues
         (

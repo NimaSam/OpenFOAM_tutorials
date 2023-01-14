@@ -1,0 +1,78 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      G;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 0 -3 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    fuel
+    {
+        type            MarshakRadiation;
+        T               T;
+        emissivityMode  lookup;
+        emissivity      uniform 1;
+        value           uniform 0;
+    }
+    air
+    {
+        type            MarshakRadiation;
+        T               T;
+        emissivityMode  lookup;
+        emissivity      uniform 1;
+        value           uniform 0;
+    }
+    outlet
+    {
+        type            MarshakRadiation;
+        T               T;
+        emissivityMode  lookup;
+        emissivity      uniform 1;
+        value           uniform 0;
+    }
+    axis
+    {
+        type            symmetryPlane;
+    }
+    wallUp
+    {
+        type            MarshakRadiation;
+        T               T;
+        emissivityMode  lookup;
+        emissivity      uniform 1;
+        value           uniform 0;
+    }
+    front-1
+    {
+        type            wedge;
+    }
+    front-2
+    {
+        type            wedge;
+    }
+    back-1
+    {
+        type            wedge;
+    }
+    back-2
+    {
+        type            wedge;
+    }
+}
+
+
+// ************************************************************************* //

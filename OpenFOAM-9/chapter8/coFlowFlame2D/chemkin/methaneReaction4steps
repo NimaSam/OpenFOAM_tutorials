@@ -1,0 +1,53 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Reference: 
+	Jones, W. P., Lindstedt, R. P. (1988).
+	Global reaction schemes for hydrocarbon combustion,
+	Combustion and Flame, 73, pp. 233-249.
+
+\*---------------------------------------------------------------------------*/
+
+reactions
+{
+    methaneReaction0
+    {
+        type     irreversibleArrhenius;
+        reaction "CH4^0.5 + 0.5O2^1.25 = CO + 2H2";
+        A        4.4e+11;
+        beta     0;
+        Ta       15095.86;
+    }
+    
+    methaneReaction1
+    {
+        type      irreversibleArrhenius;
+        reaction  "CH4 + H2O = CO + 3H2";
+        A          3.0e+8;
+        beta       0;
+        Ta         15095.86;
+    }
+
+    methaneReaction2
+    {
+        type      reversibleArrhenius;
+        reaction  "H2^0.25 + 0.5O2^1.5 = H2O";
+        A          6.8e+15;
+        beta       -1;
+        Ta         20127.81;
+    }
+        methaneReaction3
+    {
+        type      reversibleArrhenius;
+        reaction  "CO + H2O = CO2 + H2";
+        A          2.75e+9;
+        beta       0;
+        Ta         10063.91;
+    }  
+}
+// ************************************************************************* //
+

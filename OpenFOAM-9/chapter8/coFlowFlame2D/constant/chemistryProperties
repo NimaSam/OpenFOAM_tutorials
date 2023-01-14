@@ -1,13 +1,12 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-| =========                 |                                                 |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.2.1                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
-|    \\/     M anipulation  |                                                 |
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
     format      ascii;
     class       dictionary;
     location    "constant";
@@ -17,8 +16,8 @@ FoamFile
 
 chemistryType
 {
-    chemistrySolver   ode;
-    //chemistryThermo   psi;
+    solver          ode;    //EulerImplicit
+    method          standard;
 }
 
 chemistry           on;
@@ -38,7 +37,7 @@ EulerImplicitCoeffs
 
 odeCoeffs
 {
-     /*solver          SIBS;
+    /* solver          SIBS;
      eps             1e-4;
      scale           1;*/
      solver          Trapezoid;
@@ -62,9 +61,7 @@ rodas23
 rodas34
 seulex
 )
-
 */
-
 #include "$FOAM_CASE/chemkin/reactions";
 
 // ************************************************************************* //

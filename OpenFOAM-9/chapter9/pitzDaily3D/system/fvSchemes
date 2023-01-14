@@ -1,13 +1,12 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-| =========                 |                                                 |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  3.0.1                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
-|    \\/     M anipulation  |                                                 |
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  9
+     \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
     format      ascii;
     class       dictionary;
     location    "system";
@@ -17,7 +16,7 @@ FoamFile
 
 ddtSchemes
 {
-    default         Euler;
+    default         Euler;	//backward;
 }
 
 gradSchemes
@@ -54,7 +53,14 @@ divSchemes
 
 laplacianSchemes
 {
-    default         Gauss linear corrected;
+    default         none;
+
+    laplacian((rho*nuEff),U) Gauss linear corrected;
+    laplacian((rho*DkEff),k) Gauss linear corrected;
+    laplacian(rhorAUf,p) Gauss linear corrected;
+    laplacian(alphaEff,b) Gauss linear corrected;
+    laplacian(alphaEff,hau) Gauss linear corrected;
+    laplacian(alphaEff,ha)  Gauss linear corrected;
 }
 
 interpolationSchemes
@@ -65,6 +71,14 @@ interpolationSchemes
 snGradSchemes
 {
     default         corrected;
+}
+
+fluxRequired
+{
+    default         no;
+    p               ;
+    psi		    ;
+    thermo:psi_0    ;
 }
 
 
