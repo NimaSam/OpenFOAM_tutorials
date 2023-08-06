@@ -1,0 +1,26 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+application=`getApplication`
+
+echo import and scale grid
+fluentMeshToFoam file.msh
+transformPoints -scale "(0.001 0.001 0.001)"
+
+echo run serial simulation 
+buoyantBoussinesqPimpleDyMFoam > log
+
+#echo run parallel simulation ....
+
+#decomposePar
+
+#mpirun -np 4 buoyantBoussinesqPimpleDyMFoam -parallel > log
+
+#reconstructPar
+ 
+paraFoam -touchAll 
+
+#------------------------------------------------------------------------------

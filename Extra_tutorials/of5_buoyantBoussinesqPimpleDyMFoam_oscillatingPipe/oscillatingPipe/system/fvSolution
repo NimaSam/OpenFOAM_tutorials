@@ -1,0 +1,87 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(p|p_rgh)"
+    {
+        /*solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-8;
+        relTol          0.01;*/
+	solver          GAMG;
+        smoother        DIC;
+        tolerance       1e-05;
+        relTol          0.01;
+    }
+
+    "(pFinal|p_rghFinal|pcorrFinal)"
+    {
+        $p_rgh;
+        relTol          0;
+	maxIter         20;
+    }
+
+    "(U|T|k|epsilon|R)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-6;
+        relTol          0.1;
+    }
+
+    "(U|T|k|epsilon|R)Final"
+    {
+        $U;
+        relTol          0;
+    }
+    cellMotionUy
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-08;
+        relTol          0;
+    }
+    cellDisplacementy
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-08;
+        relTol          0;
+    }
+}
+
+PIMPLE
+{
+    momentumPredictor no;
+    nOuterCorrectors 2;
+    nCorrectors     2;
+    nNonOrthogonalCorrectors 0;
+    pRefCell        0;
+    pRefValue       0;
+}
+
+relaxationFactors
+{
+    equations
+    {
+        "(U|T|k|epsilon|R)" 1;
+        "(U|T|k|epsilon|R)Final" 1;
+    }
+}
+
+// ************************************************************************* //

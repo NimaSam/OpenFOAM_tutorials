@@ -1,0 +1,44 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5.0                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       pointScalarField;
+    location    "0";
+    object      pointMotionUy;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    outBoundary
+    {
+        type            zeroGradient;
+    }
+    inletBoundary
+    {
+        type            zeroGradient;//uniformFixedValue;
+        value           uniform 0;
+        uniformValue    constant 0;
+    }
+    SideWall
+    {
+        type            groovyBC;
+        value           uniform 1;
+	variables       "pY=pos().y;a=0.05;T=0.1;w=2*pi/T;";
+        valueExpression "toPoint(a*w*cos(w*time()))*(pts().y)";
+    }
+}
+
+
+// ************************************************************************* //

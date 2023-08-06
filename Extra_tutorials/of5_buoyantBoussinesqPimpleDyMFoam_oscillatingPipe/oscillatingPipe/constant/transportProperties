@@ -1,0 +1,62 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      transportProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+//Ref: Rheological properties of carboxymethyl cellulose (CMC) solutions, 
+//Colloid Polym Sci (2008) 286:1173–1180
+//DOI 10.1007/s00396-008-1882-2
+
+transportModel CrossPowerLaw;
+
+/*
+7
+(
+BirdCarreau
+Casson
+CrossPowerLaw
+HerschelBulkley
+Newtonian
+powerLaw
+strainRateFunction
+)
+*/
+
+CrossPowerLawCoeffs  //nu=(nu0_ - nuInf_)/(scalar(1) + pow(m_*strainRate(), n_)) + nuInf_
+{
+// rho=1600 kg/m3 --> nu0=mu0/rho , nuInf=muInf/rho  from table 1 for CMC (0.2%)
+// nu0=0.019/1600=0.000011875; nuInf=0.001/1600;
+
+    nu0         [0 2 -1 0 0 0 0]   0.000011875;
+    nuInf       [0 2 -1 0 0 0 0]  0.000000625;
+    m           [0 0 1 0 0 0 0]   0.010;
+    n           [0 0 0 0 0 0 0]   0.67;
+}
+
+// Laminar viscosity
+//nu              [0 2 -1 0 0 0 0] 1e-05; for newtonian
+
+// Thermal expansion coefficient
+beta            [0 0 0 -1 0 0 0] 1e-03; //check
+
+// Reference temperature
+TRef            [0 0 0 1 0 0 0] 300;
+
+// Laminar Prandtl number
+Pr              [0 0 0 0 0 0 0] 0.7; //check
+
+// Turbulent Prandtl number
+Prt             [0 0 0 0 0 0 0] 0.85;
+
+// ************************************************************************* //
