@@ -1,0 +1,78 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+scale   1;
+
+//for case 7:  alpha=45; beta=80; L=0.909; S=0.455; W=0.182 
+ 
+ 
+x0  -0.3535;  //x0=h*cos(alpha)=
+x_1 -0.67493; //x_1=(h+l)*cos(alpha)=
+x1 -0.1608;   //x1=x_0+s*cos(90-alpha)
+x2 -0.48;     //x2=x_1+s*cos(90-alpha)=
+
+
+y0  0.5;      //y0=h
+y_1 0.82;     //y_1=y0+l*sin(alpha)=
+y1  0.6608;   //y1=y0+s*sin(90-alpha)
+y2  0.98;     //y2=y1+s*sin(90-alpha)
+
+
+
+vertices
+(
+    ($x0 $y0 $z0)
+    ($x0 $y0 $z0)
+    ($x0 $y0 $z0)
+    ($x0 $y0 $z0)
+
+    ($x0 $y0 $z0)
+    ($x0 $y0 $z0)
+    ($x0 $y0 $z0)
+    ($x0 $y0 $z0)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (40 40 45) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    sides
+    {
+        type overset;
+        faces
+        (
+            (0 3 2 1)
+            (2 6 5 1)
+            (1 5 4 0)
+            (3 7 6 2)
+            (0 4 7 3)
+            (4 5 6 7)
+        );
+    }
+    floatingObject
+    {
+        type wall;
+        faces ();
+    }
+);
+
+// ************************************************************************* //

@@ -1,0 +1,97 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+scale   1;
+
+//for case 7:  alpha=45 , beta=80; 
+x0 0;
+x_1 -0.707; //x_1=2*h*cos(alpha)=
+x1 1.77;
+x2 1.943; //x2=x1+2*h*cos(beta)=
+
+
+y0 0;
+y1 1 ; //y1=2h
+
+
+
+vertices
+(
+    ($x0  $y0 -0.2)
+    ($x1  $y0 -0.2)
+    ($x2  $y1 -0.2)
+    ($x_1 $y1 -0.2)
+
+    ($x0  $y0 0.2)
+    ($x1  $y0 0.2)
+    ($x2  $y1 0.2)
+    ($x_1 $y1 0.2)
+
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (20 10 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    // Dummy patch to trigger overset interpolation before any other
+    // bcs
+    oversetPatch
+    {
+        type overset;
+        faces ();
+    }
+
+    stationaryWalls
+    {
+        type wall;
+        faces
+        (
+            (0 3 7 4)
+            (0 4 5 1)
+            (1 2 6 5)
+        );
+    }
+    atmosphere
+    {
+        type patch;
+        faces
+        (
+            (3 2 6 7)
+        );
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (0 1 2 3)
+	    (4 5 6 7)
+        );
+    }	
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //

@@ -1,0 +1,15 @@
+#!/bin/sh
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+blockMesh
+topoSet
+subsetMesh -overwrite c0 -patch floatingObject
+transformPoints -translate '(-0.22725 0.11375 0)'   # transformPoints -translate '(-l/2 s/2 0)'
+transformPoints -rotate-angle '((0 0 1) -45)'       # transformPoints -rotate-angle '((0 0 1) -alpha)'
+transformPoints -translate '(-1 1 0)'       # just test 
+ 
+
+
+
+#------------------------------------------------------------------------------
