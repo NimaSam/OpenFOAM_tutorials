@@ -1,0 +1,24 @@
+# Ignore compiled binaries
+*.OpenFOAM
+*.pdf
+*.cproject
+*.project
+*.jpg
+*.png
+*.gif
+*.mp4
+
+# Ignore log files
+*log*
+*~
+
+# Ignore node_modules directory
+polyMesh/
+postProcessing/
+pic/
+refrence/
+linux64GccDPInt32Opt/
+linuxGccDPInt32Opt/
+
+# Ignore user-specific configuration files
+
