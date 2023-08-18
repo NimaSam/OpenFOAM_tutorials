@@ -1,0 +1,16 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+// j=0.7 n=8 D=0.245 m  I=0.01  nut/nu=10 nu=1E-06 rho=1000
+
+flowVelocity         (-1.372 0 0); //U=j*n*D=0.7*8*0.245=1.372
+pressure             0;
+turbulentKE          0.0282; //ke=3/2*U^2*I=0.0282
+turbulentEpsilon     7.175; //epsilon=0.09*rho*k^2/(mut/mu)*mu=7.175
+turbulentOmega       254.4;  //omega=epsilon/k=7.175/0.0282
+turbulentNuTilda     0.0041; //nuTilda=sqrt(3/2)*U*D*I =
+// ************************************************************************* //

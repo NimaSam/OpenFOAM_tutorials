@@ -1,0 +1,117 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#includeEtc "caseDicts/mesh/generation/snappyHexMeshDict.cfg"
+
+castellatedMesh on;
+snap            on;
+addLayers       on;
+
+geometry
+{
+    propeller
+    {
+        type triSurfaceMesh;
+        file "propeller.stl";
+    }
+
+    refinementBox
+    {
+        type searchableBox;
+        min  (-2 -0.3  -0.2);
+        max  (0.2  0.3   0.2);
+    }
+  
+    MRFZone
+    {
+        type searchableCylinder;
+        point1  (-0.3 0  0);
+        point2  ( 0.14 0  0);
+	radius	0.14;
+    }
+};
+
+castellatedMeshControls
+{
+    features
+    (
+      { file  "propeller.eMesh"; level 1; }
+    );
+
+    refinementSurfaces
+    {
+        propeller
+        {
+            level (5 5);
+            patchInfo { type wall; }
+        }
+        MRFZone
+        {
+            level (3 3);
+            faceZone MRFZone;
+            cellZone MRFZone;
+            cellZoneInside inside;
+        }
+    }
+
+    refinementRegions
+    {
+        refinementBox
+        {
+            mode inside;
+            levels ((1E15 2));
+        }
+    }
+
+    locationInMesh (-2 0 0);
+}
+
+snapControls
+{
+    explicitFeatureSnap    true;
+    implicitFeatureSnap    false;
+}
+
+addLayersControls
+{
+    layers
+    {
+        "propeller.*"
+        {
+            nSurfaceLayers 2;
+        }
+    }
+
+    relativeSizes       true;
+    expansionRatio      1.2;
+    finalLayerThickness 0.5;
+    minThickness        1e-3;
+}
+
+meshQualityControls
+{}
+
+writeFlags
+(
+    noRefinement
+    // scalarLevels
+    // layerSets
+    // layerFields
+);
+
+mergeTolerance 1e-6;
+
+// ************************************************************************* //
