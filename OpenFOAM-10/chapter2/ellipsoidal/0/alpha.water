@@ -1,0 +1,102 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      alpha;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+//internalField   uniform 1;
+
+internalField  #codeStream
+    {
+        code
+        #{
+            const IOdictionary& d = static_cast<const IOdictionary&>(dict);
+            const fvMesh& mesh = refCast<const fvMesh>(d.db());
+            scalarField fld(mesh.nCells(), 0.0);
+            
+            const volVectorField & c = mesh.C(); 
+            
+            //the sphere center
+            const vector  c0(0,0,0.008);
+            //the sphere radius
+            const scalar  ri(0.004);
+            
+            forAll(c, celli)
+            {
+            	scalar d = mag(c[celli] - c0);
+            	
+            	if (d < ri) {
+            	  fld[celli]=0.0;
+            	}
+            	else
+            	{
+            	  fld[celli]=1;	
+            	}
+            }
+            writeEntry(os, "", fld);
+        #};
+
+        //- Optional:
+        codeInclude
+        #{
+            #include "fvCFD.H"
+        #};
+
+        //- Optional:
+        codeOptions
+        #{
+            -I$(LIB_SRC)/finiteVolume/lnInclude \
+            -I$(LIB_SRC)/meshTools/lnInclude
+        #};
+    };
+
+
+boundaryField
+{
+    
+    front    
+    {
+        type            wedge;
+    }
+
+    back
+    {
+        type            wedge;
+    }
+
+    fixedWall
+    { 
+	type		zeroGradient;  
+    }
+    bottom
+    {
+	type		zeroGradient;
+    }
+    top
+    {
+	type		zeroGradient;	
+	//type		inletOutlet;
+	//inletValue	uniform 0;
+	//value		uniform 0;  
+    }
+   axis            
+    {
+	type		empty;
+    }
+    	
+}
+
+
+// ************************************************************************* //

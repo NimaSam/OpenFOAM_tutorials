@@ -1,0 +1,107 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+/*AxiSymmetric mesh!
+   
+x =R*cos (theta/2)
+y =R*sin (theta/2)    theta = angle!!!!!!!!
+
+R=1 , theta= 5 degree */
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+convertToMeters 0.012;
+ 
+vertices
+(
+(0 0 0)  //0
+(0.999 0.04362 0) //1
+(0.999 0.04362 5) //2
+
+(0 0 5) //3
+(0.999 -0.04362 0) //4  
+(0.999 -0.04362 5) //5
+);
+ 
+blocks
+(
+hex (0 4 1 0 3 5 2 3) (40 1 200) simpleGrading (1 1 1)
+);
+ 
+edges
+(
+);
+ 
+boundary
+(
+    front
+    {
+        type wedge;
+        faces
+        (
+             (0 1 2 3)
+        );
+    }
+
+    back
+    {
+        type wedge;
+        faces
+        (
+            (0 3 5 4)
+        );
+    }
+
+    fixedWall
+    {
+        type wall;
+        faces
+        (
+            (1 4 5 2)
+        );
+    }
+
+    top
+    {
+        type patch;
+        faces
+        (
+             (2 5 3 3)
+        );
+    }
+	
+    bottom
+    {
+        type patch;
+        faces
+        (
+            (0 4 1 0)
+        );
+    }
+
+    axis
+    {
+        type empty;
+        faces
+        (
+             (0 3 3 0)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+ 
+

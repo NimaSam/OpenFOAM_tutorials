@@ -1,0 +1,38 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+version 2.0;
+format ascii;
+class dictionary;
+object funkySetFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+expressions
+(
+	internalFields 
+	{
+	field	alpha.water;
+	expression "pow(pos().x,2) + pow(pos().y,2)+pow(pos().z-z0,2) <= pow(R,2) && pos().z < 0.008 ? 0.0:1.0";
+	variables "z0=0.008;R=0.004;";
+	//condition "pow(pos().x,2) + pow(pos().y,2)+pow(pos().z-z0,2) <= pow(R,2)";
+	keepPatches	1;
+	}
+	
+	//funkySetFields as postprocessing calculator
+	/*calcMagU 
+	{
+	field	magU;
+	create true;
+	expression "mag(U)";
+	//variables "z0=0.008;R=0.004;";
+	//condition "pow(pos().x,2) + pow(pos().y,2)+pow(pos().z-z0,2) <= pow(R,2)";
+	//keepPatches	1;
+	}*/
+);
