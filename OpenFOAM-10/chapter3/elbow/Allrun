@@ -1,0 +1,17 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+application=`getApplication`
+
+runApplication fluent3DMeshToFoam elbow.msh
+runApplication checkMesh
+transformPoints 'scale=(0.0254 0.0254 0.0254)'
+
+runApplication $application
+
+#funkySetFields -time 0:
+
+# ----------------------------------------------------------------- end-of-file

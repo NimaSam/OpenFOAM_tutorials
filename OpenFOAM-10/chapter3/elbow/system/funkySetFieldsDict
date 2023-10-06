@@ -1,0 +1,29 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+version 2.0;
+format ascii;
+class dictionary;
+object funkySetFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+expressions
+(
+	//funkySetFields as postprocessing calculator
+	calcK 
+	{
+	field	K;
+	create true;
+	expression "0.5*(U&U)";
+	//variables "z0=0.008;R=0.004;";
+	//condition "pow(pos().x,2) + pow(pos().y,2)+pow(pos().z-z0,2) <= pow(R,2)";
+	//keepPatches	1;
+	}
+);

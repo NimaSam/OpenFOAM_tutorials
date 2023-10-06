@@ -1,0 +1,114 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     buoyantFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         1000;
+
+deltaT          1;
+
+writeControl    timeStep;
+
+writeInterval   100;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+//if swak4Foam is installed, make it uncomment
+/*
+libs (
+    "libOpenFOAM.so" // keeps paraFoam happy
+    "libsimpleSwakFunctionObjects.so" 
+);
+*/
+functions
+{
+   probes
+    {
+        type             probes;
+        functionObjectLibs ("libsampling.so");
+        enabled         true;
+        outputControl   outputTime;//timeStep;
+        outputInterval  1;
+
+        fields
+        (
+            T
+        );
+
+        probeLocations
+        (
+            ( 0.14 0.0 0.025 )
+            ( 0.0 -0.14 0.025 )
+        );
+
+    }
+
+  /*  Tinternal
+    {
+        type swakExpression;
+        valueType internalField;
+        verbose true;
+	  expression "T";
+        accumulations (
+		min
+		max		
+        );        
+    }
+
+    Toutlet
+    {
+        type patchExpression;
+        patches (pressure-outlet-7);
+        verbose true;
+	  expression "T";
+        accumulations (
+
+		average		
+        );        
+    }
+
+    Massflow
+    {
+        type  patchMassFlow;
+        patches (
+		pressure-outlet-7
+		velocity-inlet-5
+		velocity-inlet-6
+	);
+        verbose true;
+    }
+*/
+};
+
+// ************************************************************************* //
