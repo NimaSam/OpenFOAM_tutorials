@@ -1,0 +1,185 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+ResidualsFluid
+{
+    #includeEtc "caseDicts/postProcessing/numerical/residuals.cfg"
+    fields (p_rgh U h);
+    region fluid;
+}
+ResidualsSolid
+{
+    #includeEtc "caseDicts/postProcessing/numerical/residuals.cfg"
+    fields (h);
+    region solid;
+}
+tempAverageInlet
+{
+	name    FluidInlet;
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/patch.cfg"
+}
+tempAverageOutlet
+{
+	name    FluidOutlet;
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/patch.cfg"
+}
+tempAverageTop
+{
+	name    MicrochannelTop;
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/patch.cfg"
+}
+pressureAverageInlet
+{
+	name    FluidInlet;
+	fields  (p);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/patch.cfg"
+}
+pressureAverageOutlet
+{
+	name    FluidOutlet;
+	fields  (p);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/patch.cfg"
+}
+
+surfaceInterpolate
+{
+     type        surfaceInterpolate;
+     libs        ("libfieldFunctionObjects.so");
+     fields      ((T Tf)); 
+     executeControl  timeStep;
+     writeControl    writeTime;
+     region solid;   
+}
+
+
+tempAverage_H1
+{
+	name    h1;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H2
+{
+	name    h2;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H3
+{
+	name    h3;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H4
+{
+	name    h4;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H5
+{
+	name    h5;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H6
+{
+	name    h6;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H7
+{
+	name    h7;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H8
+{
+	name    h8;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H9
+{
+	name    h9;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H10
+{
+	name    h10;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+tempAverage_H11
+{
+	name    h11;
+	fields  (Tf);
+	region solid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+
+
+// ************************************************************************* //

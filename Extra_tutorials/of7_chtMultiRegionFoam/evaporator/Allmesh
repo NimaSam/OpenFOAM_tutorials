@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+./Allclean
+blockMesh |tee ./logFiles/log.blockMesh
+surfaceFeatures
+decomposePar |tee ./logFiles/log.decomposePar
+mpirun -np 8 snappyHexMesh -parallel -overwrite |tee ./logFiles/log.snappyHexMesh
+reconstructParMesh -constant |tee ./logFiles/log.reconstructParMesh
+splitMeshRegions -cellZones -overwrite |tee ./logFiles/log.splitMeshRegions # CellZonesOnly 
+createPatch -region solid -overwrite |tee ./logFiles/log.createPatch
+checkMesh |tee ./logFiles/log.checkMesh
+touch view.foam

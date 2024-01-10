@@ -1,0 +1,155 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+TAve_Ts1
+{
+	name    Ts1;
+	////fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts2
+{
+	name    Ts2;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts3
+{
+	name    Ts3;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts4
+{
+	name    Ts4;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts5
+{
+	name    Ts5;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts6
+{
+	name    Ts6;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts7
+{
+	name    Ts7;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts8
+{
+	name    Ts8;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts9
+{
+	name    Ts9;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts10
+{
+	name    Ts10;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts11
+{
+	name    Ts11;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts12
+{
+	name    Ts12;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+TAve_Ts13
+{
+	name    Ts13;
+	//fields  (T heatFlux);
+	fields  (T);
+	region fluid;
+	operation areaAverage;
+	#includeEtc "caseDicts/postProcessing/surfaceFieldValue/surfaceRegion.cfg"
+	regionType  faceZone;
+	
+}
+
+
+
+// ************************************************************************* //

@@ -1,0 +1,73 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant/fluid";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            heRhoThermo;
+    mixture         pureMixture;
+    transport       polynomial;//const;
+    thermo          hPolynomial;//hConst;
+    equationOfState icoPolynomial;
+    specie          specie;
+    energy          sensibleEnthalpy;
+}
+// data taken from https://holzmann-cfd.com/community/blog-and-tools/cae-blog/thermophysical-properties-water
+mixture
+{
+    // Water
+
+    specie
+    {
+        molWeight       18.01528;
+    }
+    /*equationOfState
+    {
+        rho             997.67;
+    }
+    thermodynamics
+    {
+        Cp              4137.9;
+        Hf              0.33355; // 0;
+    }
+    transport
+    {
+        mu              9.4420e-4;
+        Pr              3.57525;  // 6.62; // Pr @ 25C, 1Bar = 6.1266  Pr @ 100C, 1Bar = 1.0239 ---> (6.1266+1.0239)/2 = 3.57525
+    }
+    specie                                                                     
+    {                                                                          
+        molWeight       18.0 // Nima..                                        
+    }
+    */                                                                         
+    thermodynamics                                                             
+    {                                                                          
+        CpCoeffs<8>     (9850.69 -48.6714 0.13736 -0.000127063  0 0 0 0);      
+        Sf              0;                                                     
+        Hf              0;                                                     
+    }                                                                          
+    equationOfState                                                            
+    {                                                                          
+        rhoCoeffs<8>    (746.025 1.93017 -0.00365471 0 0 0 0 0);               
+    }                                                                          
+    transport                                                                  
+    {                                                                          
+        muCoeffs<8>     (0.116947 -0.00100532 2.90283e-6 -2.80572e-9 0 0 0 0); 
+        kappaCoeffs<8>  (-0.710696 0.0071857 -9.29827e-6 0 0 0 0 0);           
+    }                                 
+}
+
+// ************************************************************************* //

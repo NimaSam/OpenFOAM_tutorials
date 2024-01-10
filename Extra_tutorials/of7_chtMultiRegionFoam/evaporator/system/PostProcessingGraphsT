@@ -1,0 +1,138 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+singleGraphGlasLid
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.03175 -0.002005 0);
+	end     (0.03175 -0.002005 0);
+	fields  (T);
+	region fluid;
+	operation average;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH0
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.03 -0.002005 -0.000745);
+	end     (-0.03 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH1
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.0225 -0.002005 -0.000745);
+	end     (-0.0225 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH2
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.018 -0.002005 -0.000745);
+	end     (-0.018 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH3
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.0135 -0.002005 -0.000745);
+	end     (-0.0135 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH4
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.009 -0.002005 -0.000745);
+	end     (-0.009 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH5
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.0045 -0.002005 -0.000745);
+	end     (-0.0045 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH6
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0 -0.002005 -0.000745);
+	end     (0 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH7
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0.0045 -0.002005 -0.000745);
+	end     (0.0045 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH8
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0.009 -0.002005 -0.000745);
+	end     (0.009 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH9
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0.0135 -0.002005 -0.000745);
+	end     (0.0135 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH10
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0.018	-0.002005 -0.000745);
+	end     (0.018 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH11
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0.0225	-0.002005 -0.000745);
+	end     (0.0225 -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphH12
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0.03	-0.002005 -0.000745);
+	end     (0.03   -0.002005 0.000745);
+	fields  (T);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+
+
+
+// ************************************************************************* //

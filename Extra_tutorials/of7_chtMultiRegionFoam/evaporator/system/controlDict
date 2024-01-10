@@ -1,0 +1,321 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  8
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     userChtMultiRegionFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         75000;
+
+deltaT          1;
+
+writeControl    timeStep;
+
+writeInterval   1000;//00;
+
+purgeWrite      5;
+
+writeFormat     ascii;
+
+writePrecision  7;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable on;
+
+adjustTimeStep  off;
+
+// maxDi		100;
+
+// maxCo           1;
+
+libs (
+      "libOpenFOAM.so" //keep paraview happy!
+      "libsimpleSwakFunctionObjects.so"
+      "libswakFunctionObjects.so"
+      "libswakTopoSources.so"
+      "libgroovyBC.so"
+      );
+
+
+functions
+{
+	//#include "triSurfaceRegion"
+    /*testing
+    {
+        type writeObjects;//xxxlistRegisteredObjects;
+        //functionObjectLibs ( "libIOFunctionObjects.so" );
+        region 	fluid;
+        objects ("thermo:rho");
+        writeControl    timeStep;
+	writeInterval   1;
+    }*/
+    
+    readHeatFlux
+    {
+    	type	readAndUpdateFields;
+    	fields (
+    		heatFlux
+    		);
+    	writeControl	timeStep;
+    	writeInterval	1;
+    	correctBoundary no;
+    	region 	fluid;
+    
+    }
+
+    massFlowRate_outlet
+    {
+	type            surfaceFieldValue;
+	libs            ("libfieldFunctionObjects.so");
+	writeControl    timeStep;
+	writeInterval   1;
+	writeFields     false;
+	regionType  patch;
+        fields (phi);
+	operation sum;
+        name	FluidOutlet;
+        region fluid;
+    }
+    massFlowRate_inlet
+    {
+	type            surfaceFieldValue;
+	libs            ("libfieldFunctionObjects.so");
+	writeControl    timeStep;
+	writeInterval   1;
+	writeFields     false;
+	regionType  patch;
+       	fields (phi);
+	operation sum;
+        name	FluidInlet;
+        region fluid;
+    }
+    Qinlet_micro
+    {
+        type swakExpression;
+        valueType surface;
+        verbose true;
+        surfaceName xin;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (-0.03 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+        //variables "cp=4137.9;";
+        expression "(U & Sf())*T*rho*cp";
+        accumulations (
+            sum
+        );
+        writeStartTime    no; 
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    Qoutlet_micro
+    {
+        type swakExpression;
+        valueType surface;
+        verbose true;
+        surfaceName xout;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0.03 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+        //variables "cp=4137.9;";
+        expression "(U & Sf())*T*rho*cp";
+        accumulations (
+            sum
+        );
+        writeStartTime    no; 
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    Qinlet
+    {
+        type swakExpression;
+        valueType patch;
+        verbose true;
+        patchName  "FluidInlet";
+       //variables "cp=4137.9;";
+        expression "(U & Sf())*T*rho*cp";
+        accumulations (
+            sum
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    Qoutlet
+    {
+        type swakExpression;
+        valueType patch;
+        verbose true;
+        patchName  "FluidOutlet";
+        //variables "cp=4137.9;";
+        expression "(U & Sf())*T*rho*cp";
+        accumulations (
+            sum
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    totalQ
+    {
+        type swakExpression;
+        valueType patch;
+        verbose true;
+        patchName  "fluid_to_solid";
+        //variables "cp=4137.9;mu=9.4420e-4;Pr=3.57525;k=cp*mu/Pr;";
+        //variables "cp=4137.9;mu=9.4420e-4;k=cp*mu/Pr;";
+        expression "kappa*snGrad(T)*mag(Sf())";
+        accumulations (
+            sum
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    totalQ_solid
+    {
+        type swakExpression;
+        valueType patch;
+        verbose true;
+        patchName "solid_to_fluid";
+        variables "k=15;";
+        //variables "cp=4137.9;mu=9.4420e-4;k=cp*mu/Pr;";
+        expression "k*snGrad(T)*mag(Sf())";
+        accumulations (
+            sum
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	solid;
+    }
+    q_top
+    {
+        type swakExpression;
+        valueType patch;
+        verbose true;
+        patchName  "MicrochannelTop";
+        //variables "cp=4137.9;mu=9.4420e-4;Pr=3.57525;k=cp*mu/Pr;";
+        //variables "cp=4137.9;mu=9.4420e-4;k=cp*mu/Pr;";
+        expression "kappa*snGrad(T)*mag(Sf())";
+        accumulations (
+            sum
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    q_FluidOutlet
+    {
+        type swakExpression;
+        valueType patch;
+        verbose true;
+        patchName  "FluidOutlet";
+        //variables "cp=4137.9;mu=9.4420e-4;Pr=3.57525;k=cp*mu/Pr;";
+        //variables "cp=4137.9;mu=9.4420e-4;k=cp*mu/Pr;";
+        expression "kappa*snGrad(T)*mag(Sf())";
+        accumulations (
+            sum
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    q_FluidInlet
+    {
+        type swakExpression;
+        valueType patch;
+        verbose true;
+        patchName  "FluidInlet";
+        //variables "cp=4137.9;mu=9.4420e-4;Pr=3.57525;k=cp*mu/Pr;";
+        //variables "cp=4137.9;mu=9.4420e-4;k=cp*mu/Pr;";
+        expression "kappa*snGrad(T)*mag(Sf())";
+        accumulations (
+            sum
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    
+    kappaMaxMin
+    {
+        type swakExpression;
+        valueType internalField;
+        verbose true;
+        expression "kappa";
+        accumulations (
+            max
+            min
+            weightedAverage
+        );
+        writeStartTime   no;
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+    }
+    
+    
+  /*avgT 
+  {
+   functionObjectLibs ("libutilityFunctionObjects.so");
+   type coded;
+   redirectType average;
+   outputControl outputTime;
+   code #{
+    const volScalarField& T = mesh().lookupObject("T");
+    const patchField Tb = T.boundaryField
+    Info<<"T avg:" << average(T) << endl;
+   #};
+  }*/
+ 
+        #include "PostProcessingValues"
+	#include "PostProcessingGraphsT"
+	#include "bulkTemperature"
+	#include "TfluidSolid"
+	#include "PostProcessingGraphsP"
+}
+
+// ************************************************************************* //

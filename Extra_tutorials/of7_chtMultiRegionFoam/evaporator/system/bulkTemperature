@@ -1,0 +1,206 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Tb1
+{
+        type swakExpression;
+        valueType surface;
+        verbose true;
+        surfaceName Tb1;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (-0.03 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+        //variables "cp=4137.9;";
+        expression "sum((U & Sf())*T*rho*cp)/sum((U & Sf())*rho*cp)";
+        accumulations (
+            min
+        );
+        writeStartTime    no; 
+        outputControlMode timeStep;
+        outputInterval 1;
+        region	fluid;
+}
+Tb2
+{
+	$Tb1;
+        surfaceName Tb2;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (-0.0225 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb3
+{
+	$Tb1;
+        surfaceName Tb3;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (-0.018 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb4
+{
+	$Tb1;
+        surfaceName Tb4;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (-0.0135 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb5
+{
+	$Tb1;
+        surfaceName Tb5;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (-0.009 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb6
+{
+	$Tb1;
+        surfaceName Tb6;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (-0.0045 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb7
+{
+	$Tb1;
+        surfaceName Tb7;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb8
+{
+	$Tb1;
+        surfaceName Tb8;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0.0045 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb9
+{
+	$Tb1;
+        surfaceName Tb9;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0.009 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb10
+{
+	$Tb1;
+        surfaceName Tb10;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0.0135 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb11
+{
+	$Tb1;
+        surfaceName Tb11;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0.018 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb12
+{
+	$Tb1;
+        surfaceName Tb12;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0.0225 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+Tb13
+{
+	$Tb1;
+        surfaceName Tb13;
+        surface {
+            type	     plane;
+            planeType 	     pointAndNormal;
+            pointAndNormalDict {
+            basePoint       (0.03 0.0 0.0);
+            normalVector    (1 0 0);
+            }
+            interpolate true;
+        }
+}
+
+
+
+
+
+// ************************************************************************* //

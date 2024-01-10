@@ -1,0 +1,98 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/channel";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include "../properties"
+
+dimensions      [ 0 0 0 1 0 0 0 ];
+
+internalField   $Tair;
+
+boundaryField
+{
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    ExternalBottom 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        thicknessLayers (32.9E-03 1E-02); //mm
+        kappaLayers     ($kappaRigid10K $kappaGlassWool);// thermal conductivity
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    ExternalOring 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        thicknessLayers (3.5E-03 1E-02); //mm
+        kappaLayers     ($kappaRigid10K $kappaGlassWool);// thermal conductivity
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    ExternalSides 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        thicknessLayers (16E-03 1E-02); //mm
+        kappaLayers     ($kappaRigid10K $kappaGlassWool);// thermal conductivity
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    ExternalTop 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        thicknessLayers (5.5E-03 1E-02); //mm
+        kappaLayers     ($kappaRigid10K $kappaGlassWool);// thermal conductivity
+ 
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    HeatersSides
+    {
+    	type		externalWallHeatFluxTemperature;
+    	mode		power;
+    	Q		10;
+    	kappaMethod	solidThermo;  
+    	value		uniform 295.65; 
+    }
+    HeatersTips
+    {
+    	type		zeroGradient;
+    	/*type			externalWallHeatFluxTemperature;
+    	mode			power;
+    	Q			10;
+    	kappaMethod		solidThermo;  
+    	value			uniform 295.65;*/ 
+    }
+    solid_to_fluid
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           $internalField;
+        Tnbr            T;
+        kappaMethod     solidThermo;
+    }    
+}
+
+// ************************************************************************* //

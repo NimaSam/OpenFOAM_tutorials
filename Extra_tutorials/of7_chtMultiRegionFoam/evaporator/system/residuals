@@ -1,0 +1,35 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+fluidResiduals
+{
+    #includeEtc "caseDicts/postProcessing/numerical/residuals.cfg"
+    region fluid;
+    fields (p_rgh U h);
+}
+
+solidResiduals
+{
+    #includeEtc "caseDicts/postProcessing/numerical/residuals.cfg"
+    region solid;
+    fields (h);
+}
+
+singleGraphFluid
+{
+	start   (-0.03175 -0.00235 0);
+	end     (0.03175 -0.00235 0);
+	region fluid;
+	fields  (U p T);
+	
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,9 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+decomposePar -force -latestTime -allRegions |tee ./logFiles/log.decomposePar
+runParallel -a $(getApplication) 
+reconstructPar -allRegions |tee ./logFiles/log.reconstructPar # -latestTime
+#paraFoam -touchAll |tee ./logFiles/log.paraFoam

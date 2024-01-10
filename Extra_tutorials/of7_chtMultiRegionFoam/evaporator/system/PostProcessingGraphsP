@@ -1,0 +1,37 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+singleGraphP1
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.03175 -0.0071 0);
+	end     (-0.03175 -0.0023 0);
+	fields  (p U);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphP2
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (-0.03175 -0.0023 0);
+	end     (0.03175 -0.0023 0);
+	fields  (p U);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+singleGraphP3
+{
+	#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+	start   (0.03175 -0.0023 0);
+	end     (0.03175 -0.0071 0);
+	fields  (p U);
+	region fluid;
+	#includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+
+// ************************************************************************* //

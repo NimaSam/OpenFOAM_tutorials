@@ -1,0 +1,179 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#includeEtc "caseDicts/mesh/generation/snappyHexMeshDict.cfg"
+
+castellatedMesh true;
+snap            true;
+addLayers       false;
+
+geometry
+{
+    ChtMicrochannel
+    {
+        type triSurfaceMesh;
+        file "ChtMicrochannel.stl";
+	name 	ChtMicroreactor;
+        regions 
+        {
+        
+            bottom	{ name ExternalBottom;     }
+            top		{ name ExternalTop;     }
+            oring       { name ExternalOring;     } 
+	    sides       { name ExternalSides;     } 
+	    heatPowerSide { name HeatersSides;    }
+	    heatPowerTip  { name HeatersTips;    } 
+            microTop	 { name MicrochannelTop; }
+	    outlet	{ name FluidOutlet;     }
+	    inlet	{ name FluidInlet;     }
+           
+        }
+    }
+    FluidToSolid
+    {
+        type triSurfaceMesh;
+        file "FluidToSolid.stl";
+        name FluidToSolid;
+    }
+    
+    MicrochannelFluidVolume
+    {
+    	type triSurfaceMesh;
+        file "MicrochannelFluidVolume.stl";
+        name FluidVolume;
+    }
+    MicrochannelSolidVolume
+    {
+    	type triSurfaceMesh;
+        file "MicrochannelSolidVolume.stl";
+        name SolidVolume;
+    }
+};
+
+castellatedMeshControls
+{
+
+    features
+    (
+        {
+            file "MicrochannelFluidVolume.extendedFeatureEdgeMesh";
+            level 0;
+        }
+        {
+            file "MicrochannelSolidVolume.extendedFeatureEdgeMesh";
+            level 0;
+        }
+    );
+    
+    refinementSurfaces
+    {
+        ChtMicroreactor
+        {
+            level (1 1);
+            regions
+            {
+            	ExternalBottom{ 
+            			level (1 2);
+            			patchInfo { type wall;  }
+            		      }
+            	ExternalTop{ 
+            			level (1 2);
+            			patchInfo { type wall;  }
+            		      }
+            	ExternalOring{ 
+            			level (1 2);
+            			patchInfo { type wall;  }
+            		      }
+            	ExternalSides{ 
+            			level (1 2);
+            			patchInfo { type wall;  }
+            		      }	      	     
+            	HeatersSides{ 
+            			level (1 2);
+            			patchInfo { type wall;  }
+            		    }
+            	HeatersTips { 
+            			level (1 2);
+            			patchInfo { type wall;  }
+            		    }	  
+            			
+                FluidInlet     {
+                		level (1 2);
+                		patchInfo { type patch; }
+                		}
+                		
+                FluidOutlet    {
+                		level (1 2);
+                		patchInfo { type patch; }
+                		}
+                		
+                microTop        {
+                		level (1 2); 
+                		patchInfo { type wall; } 
+                		}
+            }
+        }
+
+        FluidToSolid
+        {
+            level (1 2);
+            faceZone FluidToSolid;
+            cellZone solid;
+            cellZoneInside outside;
+        }
+       
+    }
+
+    nCellsBetweenLevels  3; 
+    
+    resolveFeatureAngle 15; 
+
+    refinementRegions
+    {
+    	FluidVolume
+    	{
+    		mode	inside;
+    		levels	((1 2));
+    	}
+    	SolidVolume
+    	{
+    		mode	inside;
+    		levels	((1 1));
+    	}
+    }
+
+    locationInMesh (0 -0.0023 0); // In fluid
+}
+
+snapControls
+{
+    implicitFeatureSnap    false; 
+}
+
+addLayersControls
+{
+    relativeSizes       true;
+    minThickness        1;
+    finalLayerThickness 1;
+    expansionRatio      1;
+    layers
+    {}
+}
+
+//mergeTolerance 1e-6;
+
+// ************************************************************************* //

@@ -1,0 +1,475 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+     {
+        name    Ts;
+        type    faceSet;
+        action  new;
+	source  patchToFace;
+        sourceInfo
+        {
+            name  fluid_to_solid; 
+        }
+
+     }
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts1;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts1;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((-0.03005 -100 -100)(-0.03 100 100)); 
+        }
+
+     }
+     {
+        name    Ts1;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts1; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+      {
+        name    Ts2;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts2;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((-0.02255 -100 -100)(-0.0225 100 100)); 
+        }
+
+     }
+     {
+        name    Ts2;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts2; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts3;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts3;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((-0.01807 -100 -100)(-0.018 100 100)); 
+        }
+
+     }
+     {
+        name    Ts3;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts3; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts4;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts4;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((-0.01355 -100 -100)(-0.0135 100 100)); 
+        }
+
+     }
+     {
+        name    Ts4;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts4; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts5;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts5;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((-0.00905 -100 -100)(-0.009 100 100)); 
+        }
+
+     }
+     {
+        name    Ts5;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts5; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts6;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts6;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((-0.00455 -100 -100)(-0.0045 100 100)); 
+        }
+
+     }
+     {
+        name    Ts6;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts6; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts7;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts7;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((-0.00005 -100 -100)(-0 100 100)); 
+        }
+
+     }
+     {
+        name    Ts7;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts7; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts8;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts8;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((0.0045 -100 -100)(0.00455 100 100)); 
+        }
+
+     }
+     {
+        name    Ts8;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts8; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts9;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts9;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((0.009 -100 -100)(0.00905 100 100)); 
+        }
+
+     }
+      {
+        name    Ts9;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts9; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts10;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }   
+     {
+        name    Ts10;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((0.0135 -100 -100)(0.01355 100 100)); 
+        }
+
+     }
+     {
+        name    Ts10;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts10; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts11;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+     }
+     {
+        name    Ts11;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((0.01800 -100 -100)(0.01807 100 100)); 
+        }
+
+     }
+     {
+        name    Ts11;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts11; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts12;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts12;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((0.0225 -100 -100)(0.02255 100 100)); 
+        }
+
+     }
+     {
+        name    Ts12;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts12; 
+        }
+
+     }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+     {
+        name    Ts13;
+        type    faceSet;
+        action  new;
+	source  faceToFace;
+        sourceInfo
+        {
+            set  Ts; 
+        }
+
+     }
+     {
+        name    Ts13;
+        type    faceSet;
+        action  subset;
+	source  boxToFace;
+        sourceInfo
+        {
+            boxes  ((0.03 -100 -100)(0.03005 100 100)); 
+        }
+
+     }
+     {
+        name    Ts13;
+        type    faceZoneSet;
+        action  new;
+	source  setToFaceZone;
+        sourceInfo
+        {
+            faceSet  Ts13; 
+        }
+
+     }
+     
+);
+
+// ************************************************************************* //

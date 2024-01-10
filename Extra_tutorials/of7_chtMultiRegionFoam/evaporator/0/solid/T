@@ -1,0 +1,193 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/channel";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include "../properties"
+
+dimensions      [ 0 0 0 1 0 0 0 ];
+
+internalField   $Tair;
+
+boundaryField
+{
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    ExternalBottom 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        //thicknessLayers (32.9E-03 1E-02); //mm
+        //kappaLayers     ($kappaRigid10K $kappaGlassWool);// thermal conductivity
+        //thicknessLayers (2E-02); //mm
+        //kappaLayers     ($kappaGlassWool);// thermal conductivity
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    ExternalOring 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        thicknessLayers (1E-02 3.5E-03); //mm
+        kappaLayers     ($KappaOring $kappaRigid10K);// thermal conductivity
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    ExternalSides 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        thicknessLayers (15.68E-03); //mm
+        kappaLayers     ($kappaRigid10K);// thermal conductivity
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    ExternalTop 
+    {
+        type		externalWallHeatFluxTemperature;
+    	mode            coefficient;
+        Ta              $Tair;
+        h               $hConv;
+        thicknessLayers (3.5E-03); //mm
+        kappaLayers     ($kappaRigid10K);// thermal conductivity
+ 
+        kappaMethod     solidThermo; 
+        value           $internalField; 
+    }
+    HeatersSides
+    {
+    	type		externalWallHeatFluxTemperature;
+    	mode		power;
+    	Q		10;
+    	kappaMethod	solidThermo;  
+    	value		uniform 295.65; 
+    }
+    
+    /*HeatersSides
+    {
+    	
+    	type            codedMixed;
+
+    	refValue        $internalField;
+    	refGradient     uniform 1;
+    	valueFraction   uniform 0;
+	value		uniform 0;//
+    	name    variableExternalWallHeatFluxTemperature;   // name of generated BC
+
+    	code
+       #{
+       	
+      	   const scalar kappa (15);
+           const scalarList Q={0.8604,0.8659,0.8668,0.8888,0.8999,0.9013,0.9022,0.9095,0.9536,0.9669,0.9843};
+           const fvPatch & patch = this->patch();
+           const vectorField & Cf = patch.Cf();
+           const scalarField & magSf = patch.magSf(); 
+           const scalar area = 0.0004271306;//sum (magSf); // total area
+           const int n = 11; //heater number
+           scalar Qtot = 0;
+           this->refValue() = 0;
+           this->valueFraction()= 0.0; //1.0 fixedvalue 0 for gradient
+
+           forAll ( Cf, faceI)
+           {	
+       	scalar posX = Cf[faceI].x();
+       	scalar q = 0;
+       	if (posX < -0.02)
+       	{	
+        		q = Q[0];
+        	}
+        	else if ( -0.02 < posX && posX < -0.016 )
+        	{
+        		q = Q[1];
+           	}
+           	else if ( -0.016 < posX && posX < -0.011 )
+        	{
+        		q = Q[2];
+           	}
+           	else if ( -0.011 < posX && posX < -0.007 )
+        	{
+        		q = Q[3];
+           	}
+           	else if ( -0.007 < posX && posX < -0.002 )
+        	{
+        		q = Q[4];
+           	}
+           	else if ( -0.002 < posX && posX < 0.002 )
+        	{
+        		q = Q[5];
+           	}
+           	else if ( 0.002 < posX && posX < 0.007 )
+        	{
+        		q = Q[6];
+           	}
+           	else if ( 0.007 < posX && posX < 0.011 )
+        	{
+        		q = Q[7];
+           	}
+           	else if ( 0.011 < posX && posX < 0.016 )
+        	{
+        		q = Q[8];
+           	}
+           	else if ( 0.016 < posX && posX < 0.02 )
+        	{
+        		q = Q[9];
+           	}
+           	else
+        	{
+        		q = Q[10];
+           	}
+           	Qtot += q*magSf[faceI]/(area/n);
+           	this->refGrad()[faceI] = q/(kappa*(area/n));
+           }
+           Info << "area: " << area << endl;
+           Info << "Qtot: " << Qtot << endl;
+      #};
+
+    // codeInclude
+    //#{
+    //    #include "fvCFD.H"
+    //#};
+
+    // codeOptions
+    //#{
+    //    -I$(LIB_SRC)/finiteVolume/lnInclude
+    //#}; 
+		
+    	
+    }*/
+    HeatersTips
+    {
+    	type		zeroGradient;
+    	/*type			externalWallHeatFluxTemperature;
+    	mode			power;
+    	Q			10;
+    	kappaMethod		solidThermo;  
+    	value			uniform 295.65;*/ 
+    }
+    solid_to_fluid
+    {
+        type            compressible::turbulentTemperatureCoupledBaffleMixed;
+        value           $internalField;
+        Tnbr            T;
+        kappaMethod     solidThermo;
+    }    
+}
+
+// ************************************************************************* //

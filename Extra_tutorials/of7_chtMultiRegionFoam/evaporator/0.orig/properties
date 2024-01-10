@@ -1,0 +1,26 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "0";
+    object      properties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+kappaGlassWool  0.04; //0.023-0.04
+kappaRigid10K   0.621;
+KappaPyrex  	1.2;
+
+Tair    uniform 295.65; //room temperature or air temperature
+Tin     uniform 295.65; // inlet temperature
+
+hConv	uniform 25; //for air free convection 10-25
+
+// ************************************************************************* //
