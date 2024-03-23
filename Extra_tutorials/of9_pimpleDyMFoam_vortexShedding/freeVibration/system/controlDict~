@@ -1,0 +1,95 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     pimpleDyMFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         40;
+
+deltaT          1e-06;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.5;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression uncompressed;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+libs ("userLibforces.so");
+
+functions
+{
+    forces
+    {
+        type                forces;
+        functionObjectLibs  ( "userLibforces.so" );
+        outputControl       timeStep;
+        outputInterval      1;
+        patches             (cylinder);
+        pName               p;
+        UName               U;
+        rhoName             rhoInf;
+        log                 true;
+        rhoInf              10;//set density for incompressible simulation
+        CofR                (0 0 0); // center of rotation, it is useless for calculation of drag 
+    }
+
+   forceCoeffs1
+  {
+    type        forceCoeffs;
+
+    functionObjectLibs ( "userLibforces.so" );
+
+    outputControl   timeStep;
+    outputInterval   1; 
+
+    log         yes;
+
+    patches     ( cylinder );
+    rhoName     rhoInf;      // Indicates incompressible
+    rhoInf      10;           // Redundant for incompressible
+    liftDir     (0 1 0);
+    dragDir     (1 0 0);
+    CofR        (0 0 0);  // Axle midpoint on ground
+    pitchAxis   (0 0 1);
+    magUInf     1;
+    lRef        1;        // Wheelbase length
+    Aref        0.1;        // Estimated
+}
+
+}
+// ************************************************************************* //

@@ -1,0 +1,137 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+
+
+motionSolverLibs ("libfvMotionSolvers.so" "libsixDoFRigidBodyMotion.so");
+
+
+dynamicFvMesh   dynamicMotionSolverFvMesh;
+
+motionSolver        sixDoFRigidBodyMotion;//displacementLaplacian
+
+sixDoFRigidBodyMotionCoeffs
+{
+    patches         (cylinder);
+    innerDistance   0.2;
+    outerDistance   0.4;
+
+    centreOfMass    (0 0 -0.05);
+
+    // cylinder dimensions
+    R              0.5;
+    L              0.1;
+  
+
+    // Density of the solid
+    rhoSolid        10;
+
+    // cylinder mass
+    mass            #calc "$rhoSolid*$L*$R*2*Foam::constant::mathematical::pi";
+
+    // cylinder moment of inertia about the centre of mass
+    momentOfInertia #codeStream
+    {
+        codeInclude
+        #{
+            #include "diagTensor.H"
+        #};
+
+        code
+        #{
+            scalar sqrR = sqr($R);
+            scalar sqrL = sqr($L);
+            os  <<
+                $mass
+               *diagTensor(3*sqrR + sqrL, 3*sqrR + sqrL, sqrR)/2.0;
+        #};
+    };
+    
+    //velocity        (0 0 0); //intial condition
+
+    report          on;
+    accelerationRelaxation 0.7;
+    // accelerationDamping 0;
+
+    solver
+    {
+        type Newmark;
+    }
+
+    constraints
+    {
+        // fixedPoint
+        // {
+        //     sixDoFRigidBodyMotionConstraint point;
+        //     centreOfRotation (0.5 0.45 0.1);
+        // }
+
+        fixedLine
+        {
+            sixDoFRigidBodyMotionConstraint line;
+            centreOfRotation $centreOfMass;
+            direction (0 1 0);
+        }
+
+        /*fixedAxis
+        {
+            sixDoFRigidBodyMotionConstraint axis;
+            axis (0 1 0);
+        }*/
+        noRotation
+        {
+   		sixDoFRigidBodyMotionConstraint   orientation;
+   		centreOfRotation                  $centreOfMass;
+ 	}
+    }   
+     restraints
+     {
+         /*Bouyancy
+         {
+             sixDoFRigidBodyMotionRestraint constantForce;
+             refAttachmentPt ( 16.8 -1087.4 -1062 );
+             constantForce   ( 0 0 4.0994e+07 );
+         }*/
+         
+         /*linearDamper
+         {
+     		sixDoFRigidBodyMotionRestraint      linearDamper;
+     		coeff                               12345;                //Linear damping coefficient in Ns/m
+ 	 }*/
+ 	 linearSpring
+ 	 {
+     		sixDoFRigidBodyMotionRestraint        linearSpring;
+     		anchor                                (0 -1.5 0.05);
+     		refAttachmentPt                       (0 -0.5 0.05);
+     		stiffness                             12;  //units of N/m
+     		damping                               0;   //units of Ns/m
+     		restLength                            1;   //units of m
+ 	}  
+ 	 
+     }
+    
+    rho         rhoInf;
+    rhoInf          1;
+    
+    report          on;
+    reportToFile    on;
+}
+
+
+
+
+// ************************************************************************* //

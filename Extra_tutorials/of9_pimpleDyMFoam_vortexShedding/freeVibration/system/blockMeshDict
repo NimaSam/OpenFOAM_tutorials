@@ -1,0 +1,328 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 0.1;
+
+//Box
+xMin -100; 
+xMax  250;
+yMin  -150;
+yMax   150;
+zMin	0;
+zMax	1;
+
+
+Ri  5;
+Ro  40;
+
+
+
+theta1 #calc "45*Foam::constant::mathematical::pi/180";
+theta2 #calc "22.5*Foam::constant::mathematical::pi/180";
+
+Rxyi   	#calc "$Ri*cos($theta1)";
+Rxyi_   #calc "-1*$Rxyi";
+Ri_   	#calc "-1*$Ri";
+Rxi   	#calc "$Ri*cos($theta2)";
+Ryi   	#calc "$Ri*sin($theta2)";
+Rxi_   	#calc "-1*$Rxi";
+Ryi_   	#calc "-1*$Ryi";
+
+
+Rxyo   	#calc "$Ro*cos($theta1)";
+Rxyo_   #calc "-1*$Rxyo";
+Ro_   	#calc "-1*$Ro";
+Rxo   	#calc "$Ro*cos($theta2)";
+Ryo   	#calc "$Ro*sin($theta2)";
+Rxo_   	#calc "-1*$Rxo";
+Ryo_   	#calc "-1*$Ryo";
+
+
+n1  10;
+n2  30;//circle
+n3  25;
+n4  15;
+
+
+
+
+
+vertices
+(
+//z=0
+//inner circle
+   ($Ri 0 $zMin) //0
+   ($Rxyi $Rxyi $zMin) //1
+   (0 $Ri $zMin) //2
+   ($Rxyi_ $Rxyi $zMin) //3
+   ($Ri_ 0 $zMin) //4
+   ($Rxyi_ $Rxyi_ $zMin) //5
+   (0 $Ri_ $zMin) //6
+   ($Rxyi $Rxyi_ $zMin) //7
+
+//outer circle
+   ($Ro 0 $zMin) //8
+   ($Ro $Ro $zMin) //9
+   (0 $Ro $zMin) //10
+   ($Ro_ $Ro $zMin) //11
+   ($Ro_ 0 $zMin) //12
+   ($Ro_ $Ro_ $zMin) //13
+   (0 $Ro_ $zMin) //14
+   ($Ro $Ro_ $zMin) //15
+
+//rectangle
+   ($xMax 0 $zMin) //16
+   ($xMax $Ro $zMin) //17
+   ($xMax $yMax $zMin) //18
+   ($Ro $yMax $zMin) //19
+   (0 $yMax $zMin) //20
+   ($Ro_ $yMax $zMin) //21
+   ($xMin $yMax $zMin) //22
+   ($xMin $Ro $zMin) //23
+   ($xMin 0 $zMin) //24
+   ($xMin $Ro_ $zMin) //25
+   ($xMin $yMin $zMin) //26
+   ($Ro_ $yMin $zMin) //27
+   (0 $yMin $zMin) //28
+   ($Ro $yMin $zMin) //29
+   ($xMax $yMin $zMin) //30
+   ($xMax $Ro_ $zMin) //31
+
+
+//z=1
+//inner circle
+   ($Ri 0 $zMax) //0
+   ($Rxyi $Rxyi $zMax) //1
+   (0 $Ri $zMax) //2
+   ($Rxyi_ $Rxyi $zMax) //3
+   ($Ri_ 0 $zMax) //4
+   ($Rxyi_ $Rxyi_ $zMax) //5
+   (0 $Ri_ $zMax) //6
+   ($Rxyi $Rxyi_ $zMax) //7
+
+
+//outer circle
+   ($Ro 0 $zMax) //8
+   ($Ro $Ro $zMax) //9
+   (0 $Ro $zMax) //10
+   ($Ro_ $Ro $zMax) //11
+   ($Ro_ 0 $zMax) //12
+   ($Ro_ $Ro_ $zMax) //13
+   (0 $Ro_ $zMax) //14
+   ($Ro $Ro_ $zMax) //15
+
+//rectangle
+   ($xMax 0 $zMax) //48
+   ($xMax $Ro $zMax) //49
+   ($xMax $yMax $zMax) //50
+   ($Ro $yMax $zMax) //51
+   (0 $yMax $zMax) //52
+   ($Ro_ $yMax $zMax) //53
+   ($xMin $yMax $zMax) //54
+   ($xMin $Ro $zMax) //55
+   ($xMin 0 $zMax) //56
+   ($xMin $Ro_ $zMax) //57
+   ($xMin $yMin $zMax) //58
+   ($Ro_ $yMin $zMax) //59
+   (0 $yMin $zMax) //60
+   ($Ro $yMin $zMax) //61
+   ($xMax $yMin $zMax) //62
+   ($xMax $Ro_ $zMax) //63
+);
+
+
+blocks
+(
+    hex (1 0 8 9 33 32 40 41) ($n1 $n2 1) simpleGrading (1 4 1) //Block 0
+    hex (2 1 9 10 34 33 41 42) ($n1 $n2 1) simpleGrading (1 4 1) //Block 1
+    hex (3 2 10 11 35 34 42 43) ($n1 $n2 1) simpleGrading (1 4 1) //Block 2
+    hex (4 3 11 12 36 35 43 44) ($n1 $n2 1) simpleGrading (1 4 1) //Block 3
+    hex (5 4 12 13 37 36 44 45) ($n1 $n2 1) simpleGrading (1 4 1) //Block 4
+    hex (6 5 13 14 38 37 45 46) ($n1 $n2 1) simpleGrading (1 4 1) //Block 5
+    hex (7 6 14 15 39 38 46 47) ($n1 $n2 1) simpleGrading (1 4 1) //Block 6
+    hex (0 7 15 8 32 39 47 40) ($n1 $n2 1) simpleGrading (1 4 1) //Block 7
+    hex (8 16 17 9 40 48 49 41) ($n3 $n1 1) simpleGrading (2 1 1) //Block 8
+    hex (9 17 18 19 41 49 50 51) ($n3 $n4 1) simpleGrading (2 2 1) //Block 9
+    hex (10 9 19 20 42 41 51 52) ($n1 $n4 1) simpleGrading (1 2 1) //Block 10
+    hex (11 10 20 21 43 42 52 53) ($n1 $n4 1) simpleGrading (1 2 1) //Block 11
+    hex (23 11 21 22 55 43 53 54) ($n1 $n4 1) simpleGrading (1 2 1) //Block 12
+    hex (24 12 11 23 56 44 43 55) ($n1 $n1 1) simpleGrading (1 1 1) //Block 13
+    hex (25 13 12 24 57 45 44 56) ($n1 $n1 1) simpleGrading (1 1 1) //Block 14
+    hex (26 27 13 25 58 59 45 57) ($n1 $n4 1) simpleGrading (1 0.5 1) //Block 15
+    hex (27 28 14 13 59 60 46 45) ($n1 $n4 1) simpleGrading (1 0.5 1) //Block 16
+    hex (28 29 15 14 60 61 47 46) ($n1 $n4 1) simpleGrading (1 0.5 1) //Block 17
+    hex (29 30 31 15 61 62 63 47) ($n3 $n4 1) simpleGrading (2 0.5 1) //Block 18
+    hex (15 31 16 8 47 63 48 40) ($n3 $n1 1) simpleGrading (2 1 1) //Block 19
+);
+
+edges
+(
+    //inner cylinder surface
+    arc 0  1  ($Rxi $Ryi $zMin) 
+    arc 32 33 ($Rxi $Ryi $zMax) 
+
+    arc 1  2  ($Ryi $Rxi $zMin) 
+    arc 33 34 ($Ryi $Rxi $zMax) 
+
+    arc 2  3  ($Ryi_ $Rxi $zMin) 
+    arc 34 35 ($Ryi_ $Rxi $zMax) 
+
+    arc 3  4  ($Rxi_ $Ryi $zMin) 
+    arc 35 36 ($Rxi_ $Ryi $zMax)
+
+    arc 4 5 ($Rxi_ $Ryi_ $zMin)
+    arc 36 37 ($Rxi_ $Ryi_ $zMax)
+
+    arc 5 6 ($Ryi_ $Rxi_ $zMin)
+    arc 37 38 ($Ryi_ $Rxi_ $zMax)
+
+    arc 6 7  ($Ryi $Rxi_ $zMin) 
+    arc 38 39 ($Ryi $Rxi_ $zMax) 
+
+    arc 7 0  ($Rxi $Ryi_ $zMin) 
+    arc 39 32 ($Rxi $Ryi_ $zMax)
+
+    //outer cylinder surface
+    /*arc 8  9  ($Rxo $Ryo 0) 
+    arc 40 41 ($Rxo $Ryo 1) 
+
+    arc 9 10  ($Ryo $Rxo 0) 
+    arc 41 42 ($Ryo $Rxo 1) 
+
+    arc 10 11  ($Ryo_ $Rxo 0) 
+    arc 42 43 ($Ryo_ $Rxo 1) 
+
+    arc 11 12  ($Rxo_ $Ryo 0) 
+    arc 43 44 ($Rxo_ $Ryo 1)
+
+    arc 12 13 ($Rxo_ $Ryo_ 0)
+    arc 44 45 ($Rxo_ $Ryo_ 1)
+
+    arc 13 14 ($Ryo_ $Rxo_ 0)
+    arc 45 46 ($Ryo_ $Rxo_ 1)
+
+    arc 14 15  ($Ryo $Rxo_ 0) 
+    arc 46 47 ($Ryo $Rxo_ 1) 
+
+    arc 15 8  ($Rxo $Ryo_ 0) 
+    arc 47 40 ($Rxo $Ryo_ 1)*/
+
+);
+
+patches
+(
+    patch inlet
+    (
+          (22 23 55 54)
+          (23 24 56 55)
+          (24 25 57 56)
+          (25 26 58 57)
+    )
+
+    patch outlet
+    (
+          (30 31 63 62)
+          (31 16 48 63)
+          (16 17 49 48)
+          (17 18 50 49)
+   )
+      
+    patch topAndBottom
+        (
+          (18 19 51 50)
+          (19 20 52 51)
+          (20 21 53 52)
+          (21 22 54 53)
+
+          (26 27 59 58)
+          (27 28 60 59)
+          (28 29 61 60)
+          (29 30 62 61)
+        )
+    
+    wall cylinder
+        (
+          (1 0 32 33)
+          (2 1 33 34)
+          (3 2 34 35)
+          (4 3 35 36)
+          (5 4 36 37)
+          (6 5 37 38)
+          (7 6 38 39)
+          (0 7 39 32)
+        )
+  
+    empty front
+     (	
+     	//circular faces
+          (0 1 9 8)
+          (1 2 10 9)
+          (2 3 11 10)
+          (3 4 12 11)
+          (4 5 13 12)
+          (5 6 14 13)
+          (6 7 15 14)
+          (7 0 8 15)
+          
+//rectangular faces
+          (8 9 17 16)
+          (9 19 18 17)
+          (9 10 20 19)
+          (10 11 21 20)
+          (11 23 22 21)
+          (11 12 24 23)
+          (12 13 25 24)
+          (13 27 26 25)
+          (13 14 28 27)
+          (14 15 29 28)
+          (15 31 30 29)
+          (15 8 16 31)
+     )
+  
+    empty back
+     (
+//circular faces
+          (32 40 41 33)
+	  (33 41 42 34)
+          (34 42 43 35)
+          (35 43 44 36)
+          (36 44 45 37)
+          (37 45 46 38)
+          (38 46 47 39)
+          (39 47 40 32)
+
+//rectangular faces
+          (40 48 49 41)
+          (41 49 50 51)
+          (41 51 52 42)
+          (42 52 53 43)
+          (43 53 54 55)
+          (43 55 56 44)
+          (44 56 57 45)
+          (45 57 58 59)
+          (45 59 60 46)
+          (46 60 61 47)
+          (47 61 62 63)
+          (47 63 48 40)
+        )
+
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
