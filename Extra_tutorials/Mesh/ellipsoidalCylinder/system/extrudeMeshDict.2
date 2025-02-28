@@ -1,0 +1,116 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      extrudeMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+constructFrom    patch;
+/*
+patch:   patch of sourceCase
+mesh:    patch of sourceCase, retaining original mesh
+surface: surface geometry file
+*/
+
+sourceCase       "$FOAM_CASE";   // uses current case; can be a separate case
+sourcePatches    (inlet);
+// surface       "geometry.obj"; // constructFrom surface
+
+// constructFrom patch: name of exposed "original" patch
+exposedPatchName outlet;//back;
+
+flipNormals      false;
+
+extrudeModel     sector;//radial;//polyline;//plane;
+/*
+linearNormal:    linear extrusion in point-normal direction
+plane:           single-layer, point-normal extrusion with empty type (2D)
+linearDirection: linear extrusion in specified direction
+wedge:           single-layer, wedge extrusion with wedge type (axisymmetric)
+sector:          sector extrusion about specified axis
+linearRadial:    linear extrusion in radial direction
+radial:          linear extrusion in radial direction with multiple radii
+*/
+
+//thickness        0.5; // used by plane extrusion
+
+nLayers          100;
+expansionRatio   1.0;
+
+// Merge front and back patches, typically for 360 deg wedge extrusion
+mergeFaces       false;
+mergeTol         0;
+
+linearNormalCoeffs
+{
+    thickness    0.5;
+}
+
+linearDirectionCoeffs
+{
+    direction    (0 1 0);
+    thickness    0.5;
+}
+
+sectorCoeffs // used by sector and wedge extrusion
+{
+    axisPt       (0 0 0);
+    axis         (-1 0 0);
+    angle        90;
+}
+
+linearRadialCoeffs
+{
+    R            0.5;
+    Rsurface     0.1;
+}
+
+radialCoeffs
+{
+    R            table ((0 0.01) (3 0.03) (10 0.1));
+}
+
+polylineCoeffs
+{
+    vertices 3
+    (
+		(0 0 0.05)
+		(0 0 1)
+		(0 1 2)
+    );
+
+    //- Using arcs
+    edges
+    (
+        line 0 1 
+        arc 1 2 (0 0.7 1.3)
+        //line 2 3
+    );
+    //- Using spline (different shape):
+    /*edges
+    (
+        spline 0 1
+        (
+            //(0 0 0)    // start point
+		    (0 0 1)  // beginning of the bend
+		    (0 0.7 1.7)  // middle of the bend
+		    (0 1 2)  // end of the bend
+		    //(1 1 0)    // final point
+        )
+    );*/
+
+    toleranceCheck  1e-6;
+}
+
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

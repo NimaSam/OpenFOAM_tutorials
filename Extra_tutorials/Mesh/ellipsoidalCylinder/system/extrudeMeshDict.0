@@ -1,0 +1,56 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      extrudeMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+constructFrom    mesh;//patch;
+/*
+patch:   patch of sourceCase
+mesh:    patch of sourceCase, retaining original mesh
+surface: surface geometry file
+*/
+
+sourceCase       "$FOAM_CASE";   // uses current case; can be a separate case
+sourcePatches    (inlet);
+// surface       "geometry.obj"; // constructFrom surface
+
+// constructFrom patch: name of exposed "original" patch
+exposedPatchName outlet;//back;
+
+flipNormals      false;
+
+extrudeModel     sector;//radial;//polyline;//plane;
+/*
+linearNormal:    linear extrusion in point-normal direction
+sector:          sector extrusion about specified axis
+*/
+
+
+nLayers          100;
+expansionRatio   1.0;
+
+// Merge front and back patches, typically for 360 deg wedge extrusion
+mergeFaces       false;
+mergeTol         0;
+
+sectorCoeffs // used by sector and wedge extrusion
+{
+    axisPt       (0 0.1 0); //point of rotation, the distance between this point and cylinder axis define the radius of elbow!  
+    axis         (1 0 0); // axis of rotation
+    angle        90; // angle of rotation
+}
+
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
